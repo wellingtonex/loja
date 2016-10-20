@@ -1,4 +1,4 @@
 /target/
 /.settings/
 .class
-/classes
+/src/main/webapp/WEB-INF/classes/
