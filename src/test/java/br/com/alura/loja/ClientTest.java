@@ -43,9 +43,9 @@ public class ClientTest {
 
 	@Test
 	public void testaQueAConexaoComOServidorFunciona() {
-		String conteudo = target.path("/carrinhos/1").request().get(String.class);
-		Assert.assertTrue(conteudo.contains("Rua Vergueiro 3185"));
-		System.out.println(conteudo);
+		Carrinho carrinho = target.path("/carrinhos/1").request().get(Carrinho.class);
+		Assert.assertEquals("Rua Vergueiro 3185, 8 andar", carrinho.getRua());
+		
 	}
 	
 	@Test
@@ -53,15 +53,14 @@ public class ClientTest {
 		Carrinho carrinho = new Carrinho();
 		carrinho.adiciona(new Produto(314, "Microfone", 37, 1));
 		carrinho.setRua("Rua Vergueiro 3185");
-		carrinho.setCidade("São Paulo");
-		String xml = carrinho.toXML();
-		Entity<String> entity = Entity.entity(xml, MediaType.APPLICATION_XML);
+		carrinho.setCidade("São Paulo");		
+		Entity<Carrinho> entity = Entity.entity(carrinho, MediaType.APPLICATION_XML);
 
 		Response response = target.path("/carrinhos").request().post(entity);
 		Assert.assertEquals(201, response.getStatus());
 		String location = response.getHeaderString("Location");
 		
-		String conteudo = client.target(location).request().get(String.class);
-		Assert.assertTrue(conteudo.contains("Microfone"));
+		Carrinho carrinhoRetorno = client.target(location).request().get(Carrinho.class);
+		Assert.assertEquals("Microfone", carrinhoRetorno.getProdutos().get(0).getNome());
 	}
 }
