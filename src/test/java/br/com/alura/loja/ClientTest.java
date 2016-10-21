@@ -7,6 +7,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +23,9 @@ public class ClientTest {
 
 	@Before
 	public void init() {
-		client = ClientBuilder.newClient();
+		ClientConfig config = new ClientConfig();
+		config.register(new LoggingFilter());
+		client = ClientBuilder.newClient(config);
 		target = client.target("http://localhost:8080");
 	}
 
