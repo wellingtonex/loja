@@ -14,11 +14,11 @@ public class CarrinhoResource {
 
 	@Path("{id}")
 	@GET
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String busca(@PathParam("id") long id) {
 		Carrinho carrinho = new CarrinhoDAO().busca(id);
 		try {
-			return carrinho.toXML();
+			return carrinho.toJson();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
