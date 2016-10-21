@@ -16,6 +16,14 @@ public class Servidor {
 		System.out.println("Server running...");
 		System.in.read();
 		server.stop();
-		System.out.println("Servidor parado...");
+		System.out.println("Server stopped...");
+	}
+	
+	public static HttpServer start() throws IOException {
+		ResourceConfig config = new ResourceConfig().packages("br.com.alura.loja");
+		URI uri = URI.create("http://localhost:8080/");
+		HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
+		System.out.println("Server running...");
+		return server;
 	}
 }

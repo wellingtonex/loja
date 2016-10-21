@@ -1,5 +1,7 @@
 package br.com.alura.loja;
 
+import java.io.IOException;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -7,8 +9,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,13 +24,21 @@ public class ClientTest {
 	
 	private WebTarget target;
 	private Client client;
+	private HttpServer server;
 
 	@Before
-	public void init() {
+	public void init() throws IOException {
+		server = Servidor.start();
 		ClientConfig config = new ClientConfig();
 		config.register(new LoggingFilter());
 		client = ClientBuilder.newClient(config);
 		target = client.target("http://localhost:8080");
+	}
+	
+	@After
+	public void stopService() {
+		server.stop();
+		System.out.println("Server stopped...");
 	}
 
 	@Test
