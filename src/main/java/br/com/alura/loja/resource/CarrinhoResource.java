@@ -2,6 +2,7 @@ package br.com.alura.loja.resource;
 
 import java.net.URI;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,7 +28,7 @@ public class CarrinhoResource {
 	}
 	
 	@POST
-	@Produces(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_XML)
 	public Response adiciona(String conteudo) {
 		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
 		new CarrinhoDAO().adiciona(carrinho);
